@@ -134,7 +134,7 @@ public class Parser {
 			savedStmt = Stmt.Enclosing; Stmt.Enclosing = fornode;
 			match(Tag.FOR);
 			match('(');
-			s=stmt();x=bool();s1=stmt();
+			s=stmt();x=bool();match(';');s1=testAssign();
 			match(')');
 			s2=stmt();
 			fornode.init(s,x,s1,s2);
@@ -180,6 +180,22 @@ public class Parser {
 	      match(';');
 	      return stmt;
 	   }
+
+	   Stmt testAssign() throws IOException {
+		Stmt stmt;  Token t = look;
+		match(Tag.ID);
+		Id id = top.get(t);
+		if( id == null ) error(t.toString() + " undeclared");
+
+		if( look.tag == '=' ) {       // S -> id = E ;
+		   move();  stmt = new Set(id, bool());
+		}
+		else {                        // S -> L = E ;
+		   Access x = offset(id);
+		   match('=');  stmt = new SetElem(x, bool());
+		}
+		return stmt;
+	 }
 
 	   Expr bool() throws IOException {
 	      Expr x = join();
