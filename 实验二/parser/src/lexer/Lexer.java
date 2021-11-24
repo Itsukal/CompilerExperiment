@@ -21,6 +21,7 @@ public class Lexer {
 		reserve(new Word("while", Tag.WHILE));
 		reserve(new Word("do", Tag.DO));
 		reserve(new Word("break", Tag.BREAK));
+		reserve(new Word("for",Tag.FOR));
 		// 布尔值
 		reserve(Word.True); reserve(Word.False);
 		// Basic type基本数据类型

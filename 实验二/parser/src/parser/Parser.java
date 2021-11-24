@@ -19,6 +19,7 @@ import inter.SetElem;
 import inter.Stmt;
 import inter.Unary;
 import inter.While;
+import inter.For;
 
 import java.io.IOException;
 
@@ -41,7 +42,8 @@ public class Parser {
 	   //构造函数，构造一个Lexer对象，获取next token
 	   public Parser(Lexer l) throws IOException { lex = l; move(); }
 
-	   void move() throws IOException { // next token
+	   //获取下一个token
+	   void move() throws IOException { 
 		   look = lex.scan(); 
 		   if(look.tag=='\r')
 		   look=lex.scan();
@@ -126,6 +128,19 @@ public class Parser {
 	         whilenode.init(x, s1);
 	         Stmt.Enclosing = savedStmt;  // reset Stmt.Enclosing
 	         return whilenode;
+
+		case Tag.FOR:
+			For fornode=new For();
+			savedStmt = Stmt.Enclosing; Stmt.Enclosing = fornode;
+			match(Tag.FOR);
+			match('(');
+			s=stmt();x=bool();s1=stmt();
+			match(')');
+			s2=stmt();
+			fornode.init(s,x,s1,s2);
+			Stmt.Enclosing=savedStmt;
+			return fornode;
+
 
 	      case Tag.DO:
 	         Do donode = new Do();

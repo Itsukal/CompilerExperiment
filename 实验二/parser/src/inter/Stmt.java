@@ -6,7 +6,7 @@ public class Stmt extends Node {
 
    public static Stmt Null = new Stmt(); //空语句序列
    /*
-    * gen逻辑在子类实现
+    * gen逻辑在子类实现 
     * 参数 b（begin）: 当前stmt的开始label；
     * 参数a （after）: 当前语句后的第一条指令语句
     */
