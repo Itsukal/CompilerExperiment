@@ -134,7 +134,7 @@ public class Parser {
 			savedStmt = Stmt.Enclosing; Stmt.Enclosing = fornode;
 			match(Tag.FOR);
 			match('(');
-			s=stmt();x=bool();match(';');s1=testAssign();
+			s=assign();x=bool();match(';');s1=testAssign();
 			match(')');
 			s2=stmt();
 			fornode.init(s,x,s1,s2);
